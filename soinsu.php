@@ -16,7 +16,8 @@ function arr_calc( $in ){
    $in /= $a;
    array_push( $arr , $a );
   }else{
-   ++$a;
+   //2以外の偶数は素数になることはないので
+   $a += ( $a <= 2 )? 1 : 2 ;
   }
  }
  //最後に余りを加える
