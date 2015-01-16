@@ -39,14 +39,24 @@ function sumRow( $in ){
 }
 
 //pre process------------------------
-if( $argv[ 1 ] ){
- //4桁以上だったら以上終了
- if( $argv[ 1 ] > 9999 ){
-  exit( 1 );	
- }
- $in = $argv[ 1 ];
-}else{
- echo "sample number	".$in.PHP_EOL;
+$opt	 = getopt( "qhv:" );
+$isQuiet = isset( $opt[ "q" ] );	//計算過程を表示しない
+$isHelp	 = isset( $opt[ "h" ] );	//help
+$in  = $opt[ "v" ] ;			//value
+
+//-------------------------------------
+if( $isHelp ){ 
+//ヘルプ表示
+?>
+ Usage: 
+ [options] [-v: value]
+<?
+ exit(1);
+}
+
+ //4桁以上だったら異常終了
+if( $in > 9999 ){
+ exit( 1 );	
 }
 
 //calc main----------
@@ -67,8 +77,15 @@ if( $DEBUG ){
 $batsu = count($arr) - 1;
 
 //end of calculation ------
+if( !$isQuiet ){
 ?>
-<?PHP if( $DEBUG ){ echo $state; } ?> 
+
+<?if( $DEBUG ){ echo $state; } ?> 
 batsu	:<?PHP echo $batsu ?> 
 sum	:<?PHP echo $rsum ?>
 
+<?php 
+};
+
+echo ( $batsu == $rsum )? 't' : 'f'.PHP_EOL;
+ ?>
